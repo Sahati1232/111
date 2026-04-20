@@ -9,8 +9,13 @@ if (isset($_SESSION['logged_in'])) {
     exit;
 }
 
+// Initialize variables
 $error = "";
 $success = "";
+$name = "";
+$username = "";
+$password = "";
+$confirm_password = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'] ?? '';
