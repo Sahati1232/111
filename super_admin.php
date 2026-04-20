@@ -60,6 +60,7 @@ foreach($products as $p) {
 
         <section id="inventory" class="grid lg:grid-cols-2 gap-8 animate__animated animate__fadeInUp">
             
+            <?php if($_SESSION['role'] === 'admin'): ?>
             <div class="bg-slate-800/40 border border-slate-700/50 p-8 rounded-[2rem]">
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-xl font-black text-white">Product Inventory</h3>
@@ -87,6 +88,22 @@ foreach($products as $p) {
                     <?php endforeach; ?>
                 </div>
             </div>
+            <?php else: ?>
+            <div class="bg-slate-800/40 border border-slate-700/50 p-8 rounded-[2rem]">
+                <h3 class="text-xl font-black text-white mb-6">Available Products</h3>
+                <div class="space-y-3">
+                    <?php foreach($products as $p): ?>
+                    <div class="bg-slate-900/40 p-4 rounded-2xl border border-transparent hover:border-indigo-500/30 flex justify-between items-center transition-all group">
+                        <div>
+                            <p class="font-bold text-white"><?= h($p['product_name']) ?></p>
+                            <p class="text-[10px] font-mono text-slate-500 uppercase">Price: $<?= h($p['price']) ?> | Available: <?= h($p['stock']) ?></p>
+                        </div>
+                        <button class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-all">Order</button>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endif; ?>
 
             <div class="bg-slate-800/40 border border-slate-700/50 p-8 rounded-[2rem]">
                 <h3 class="text-xl font-black text-white mb-6">Team Members</h3>
