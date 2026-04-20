@@ -77,6 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </button>
         </form>
 
+        <p class="text-center text-slate-400 text-sm mt-6">
+            Don't have an account? <a href="register.php" class="text-indigo-500 hover:text-indigo-400 font-bold">Register here</a>
+        </p>
+
         <p class="text-center text-slate-600 text-[10px] mt-8 font-bold uppercase tracking-widest">Admin Control v2.4</p>
     </div>
 

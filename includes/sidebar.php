@@ -15,5 +15,5 @@
         </a>
         <?php endif; ?>
     </nav>
-    <a href="login.php" class="p-4 bg-red-500/10 text-red-500 rounded-2xl text-center text-xs font-black hover:bg-red-500 hover:text-white transition-all">LOGOUT</a>
+    <a href="actions/logout.php" class="p-4 bg-red-500/10 text-red-500 rounded-2xl text-center text-xs font-black hover:bg-red-500 hover:text-white transition-all">LOGOUT</a>
 </aside>
