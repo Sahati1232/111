@@ -9,6 +9,11 @@
         <a href="inventory.php" class="flex items-center gap-3 p-4 <?= basename($_SERVER['PHP_SELF']) == 'inventory.php' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800' ?> rounded-2xl transition-all">
             📦 Inventory
         </a>
+        <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'user'): ?>
+        <a href="user.php" class="flex items-center gap-3 p-4 <?= basename($_SERVER['PHP_SELF']) == 'user.php' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800' ?> rounded-2xl transition-all">
+            👤 My Dashboard
+        </a>
+        <?php endif; ?>
         <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
         <a href="admin_users.php" class="flex items-center gap-3 p-4 <?= basename($_SERVER['PHP_SELF']) == 'admin_users.php' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800' ?> rounded-2xl transition-all">
             👥 Users

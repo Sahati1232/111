@@ -109,15 +109,20 @@ foreach($products as $p) {
                 <h3 class="text-xl font-black text-white mb-6">Team Members</h3>
                 <div class="space-y-3">
                     <?php foreach($users as $u): ?>
-                    <div class="bg-slate-900/40 p-4 rounded-2xl border border-transparent hover:border-indigo-500/30 flex justify-between items-center transition-all <?php echo $_SESSION['role'] === 'admin' ? 'group' : ''; ?>">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-bold"><?= substr($u['name'], 0, 1) ?></div>
-                            <p class="font-bold text-white text-sm"><?= h($u['name']) ?></p>
+                        <?php if($u['role'] !== 'user'): ?>
+                        <div class="bg-slate-900/40 p-4 rounded-2xl border border-transparent hover:border-indigo-500/30 flex justify-between items-center transition-all <?php echo $_SESSION['role'] === 'admin' ? 'group' : ''; ?>">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xs font-bold"><?= substr($u['name'], 0, 1) ?></div>
+                                <div>
+                                    <p class="font-bold text-white text-sm"><?= h($u['name']) ?></p>
+                                    <p class="text-[10px] text-slate-500 uppercase font-bold"><?= h($u['role']) ?></p>
+                                </div>
+                            </div>
+                            <?php if($_SESSION['role'] === 'admin'): ?>
+                            <a href="actions/delete.php?id=<?= $u['id'] ?>&type=user" class="text-red-500 text-[10px] font-black opacity-0 group-hover:opacity-100 transition-all uppercase">Remove</a>
+                            <?php endif; ?>
                         </div>
-                        <?php if($_SESSION['role'] === 'admin'): ?>
-                        <a href="actions/delete.php?id=<?= $u['id'] ?>&type=user" class="text-red-500 text-[10px] font-black opacity-0 group-hover:opacity-100 transition-all uppercase">Remove</a>
                         <?php endif; ?>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>

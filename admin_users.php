@@ -59,6 +59,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
 // Fetch all users
 $users = $pdo->query("SELECT id, username, name, role, created_at FROM users ORDER BY id DESC")->fetchAll();
+
+// Get filter from URL
+$filter = $_GET['filter'] ?? 'all';
+$filtered_users = array_filter($users, function($u) use ($filter) {
+    if ($filter === 'all') return true;
+    return $u['role'] === $filter;
+});
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,18 +73,39 @@ $users = $pdo->query("SELECT id, username, name, role, created_at FROM users ORD
     <meta charset="UTF-8">
     <title>User Management | DoriSys</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <?php include 'includes/scripts.php'; ?>
 </head>
-<body class="bg-[#0f172a] text-slate-200 min-h-screen p-6">
-    <div class="max-w-6xl mx-auto">
+<body class="bg-[#0f172a] text-slate-200 flex min-h-screen">
+    <?php include 'includes/sidebar.php'; ?>
+    
+    <main class="flex-1 p-6 lg:p-10">
+        <?php include 'includes/navbar.php'; ?>
+        
         <div class="mb-8">
             <h1 class="text-4xl font-black text-white mb-2">User Management</h1>
             <p class="text-slate-400">Manage system users and permissions</p>
         </div>
 
+        <!-- Filter Buttons -->
+        <div class="flex gap-3 mb-8 flex-wrap">
+            <a href="admin_users.php?filter=all" class="px-6 py-2 rounded-full font-bold text-sm transition-all <?= $filter === 'all' ? 'bg-indigo-600 text-white' : 'bg-slate-800/40 text-slate-300 hover:bg-slate-700' ?>">
+                All Users (<?= count($users) ?>)
+            </a>
+            <a href="admin_users.php?filter=admin" class="px-6 py-2 rounded-full font-bold text-sm transition-all <?= $filter === 'admin' ? 'bg-red-600 text-white' : 'bg-slate-800/40 text-slate-300 hover:bg-slate-700' ?>">
+                👑 Admin
+            </a>
+            <a href="admin_users.php?filter=manager" class="px-6 py-2 rounded-full font-bold text-sm transition-all <?= $filter === 'manager' ? 'bg-blue-600 text-white' : 'bg-slate-800/40 text-slate-300 hover:bg-slate-700' ?>">
+                📋 Manager
+            </a>
+            <a href="admin_users.php?filter=user" class="px-6 py-2 rounded-full font-bold text-sm transition-all <?= $filter === 'user' ? 'bg-slate-600 text-white' : 'bg-slate-800/40 text-slate-300 hover:bg-slate-700' ?>">
+                👤 Users
+            </a>
+        </div>
+
         <div class="grid lg:grid-cols-3 gap-8">
             <!-- Add User Form -->
             <div class="lg:col-span-1">
-                <div class="bg-slate-800/40 border border-slate-700/50 p-8 rounded-3xl sticky top-6">
+                <div class="bg-slate-800/40 border border-slate-700/50 p-8 rounded-3xl sticky top-24">
                     <h2 class="text-xl font-black text-white mb-6">Add New User</h2>
 
                     <?php if($error): ?>
@@ -142,11 +170,18 @@ $users = $pdo->query("SELECT id, username, name, role, created_at FROM users ORD
             <!-- Users List -->
             <div class="lg:col-span-2">
                 <div class="bg-slate-800/40 border border-slate-700/50 p-8 rounded-3xl">
-                    <h2 class="text-xl font-black text-white mb-6">System Users (<?= count($users) ?>)</h2>
+                    <h2 class="text-xl font-black text-white mb-6">
+                        <?php 
+                        if ($filter === 'all') echo "All Users (" . count($filtered_users) . ")";
+                        elseif ($filter === 'admin') echo "👑 Admin (" . count($filtered_users) . ")";
+                        elseif ($filter === 'manager') echo "📋 Manager (" . count($filtered_users) . ")";
+                        else echo "👤 Users (" . count($filtered_users) . ")";
+                        ?>
+                    </h2>
                     
                     <div class="space-y-3">
-                        <?php if(count($users) > 0): ?>
-                            <?php foreach($users as $u): ?>
+                        <?php if(count($filtered_users) > 0): ?>
+                            <?php foreach($filtered_users as $u): ?>
                             <div class="bg-slate-900/40 p-4 rounded-2xl border border-transparent hover:border-indigo-500/30 flex justify-between items-center transition-all group">
                                 <div>
                                     <p class="font-bold text-white"><?= h($u['name']) ?></p>
@@ -176,6 +211,6 @@ $users = $pdo->query("SELECT id, username, name, role, created_at FROM users ORD
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 </body>
 </html>
