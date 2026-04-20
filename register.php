@@ -5,7 +5,7 @@ require_once 'config/functions.php';
 
 // Redirect if already logged in
 if (isset($_SESSION['logged_in'])) {
-    header("Location: super_admin.php");
+    header("Location: user.php");
     exit;
 }
 

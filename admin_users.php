@@ -161,7 +161,7 @@ $filtered_users = array_filter($users, function($u) use ($filter) {
                         </button>
                     </form>
 
-                    <a href="super_admin.php" class="block text-center text-slate-400 hover:text-white text-sm mt-4 transition-all">
+                    <a href="admin_dashboard.php" class="block text-center text-slate-400 hover:text-white text-sm mt-4 transition-all">
                         Back to Dashboard
                     </a>
                 </div>

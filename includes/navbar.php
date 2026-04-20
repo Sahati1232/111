@@ -14,7 +14,7 @@
                     <p class="text-sm text-white font-bold mt-1"><?= $_SESSION['username'] ?></p>
                 </div>
                 
-                <a href="super_admin.php" class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-all text-sm">
+                <a href="<?= $_SESSION['role'] === 'user' ? 'user.php' : 'admin_dashboard.php' ?>" class="flex items-center gap-3 px-4 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-all text-sm">
                     <span>📊</span> Dashboard
                 </a>
                 

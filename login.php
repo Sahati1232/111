@@ -22,8 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['user_id'] = $user_data['id'];
                 $_SESSION['role'] = $user_data['role'];
                 
-                // Redirect to dashboard
-                header("Location: super_admin.php"); 
+                // Redirect based on role
+                if ($user_data['role'] === 'user') {
+                    header("Location: user.php");
+                } else {
+                    header("Location: admin_dashboard.php");
+                }
                 exit;
             } else {
                 $error = "Incorrect username or password.";

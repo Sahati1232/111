@@ -14,6 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->execute([$_POST['product_name'], $_POST['price'], $_POST['stock']]);
     }
 
-header("Location: ../super_admin.php?msg=success");
+header("Location: ../admin_dashboard.php?msg=success");
 }
 ?>

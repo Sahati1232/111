@@ -12,7 +12,7 @@ if (!isset($_SESSION['logged_in'])) {
 
 // Restrict access to users only
 if ($_SESSION['role'] !== 'user') {
-    header("Location: super_admin.php");
+    header("Location: admin_dashboard.php");
     exit;
 }
 
@@ -101,8 +101,8 @@ $total_users = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
                             <p class="text-white font-bold">📦 Browse Products</p>
                             <p class="text-xs text-slate-400">View and order available products</p>
                         </a>
-                        <a href="super_admin.php" class="block bg-slate-900/40 hover:bg-slate-900/60 p-4 rounded-xl transition-all border border-slate-700/30 hover:border-indigo-500/50">
-                            <p class="text-white font-bold">📊 Dashboard</p>
+                        <a href="admin_dashboard.php" class="block bg-slate-900/40 hover:bg-slate-900/60 p-4 rounded-xl transition-all border border-slate-700/30 hover:border-indigo-500/50">
+                            <p class="text-white font-bold">📊 Admin Dashboard</p>
                             <p class="text-xs text-slate-400">View system overview and analytics</p>
                         </a>
                     </div>

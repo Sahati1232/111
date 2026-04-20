@@ -1,6 +1,13 @@
 <?php
 session_start();
 if (!isset($_SESSION['logged_in'])) { header("Location: login.php"); exit; }
+
+// Restrict analytics to admins only
+if ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'manager') {
+    header("Location: user.php");
+    exit;
+}
+
 require_once 'config/db.php';
 
 $products = $pdo->query("SELECT product_name, stock, price FROM products")->fetchAll();

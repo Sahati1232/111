@@ -25,5 +25,5 @@ if($id) {
 }
 
 // Redirect back to the main dashboard
-header("Location: ../super_admin.php?msg=deleted");
+header("Location: ../admin_dashboard.php?msg=deleted");
 exit;
