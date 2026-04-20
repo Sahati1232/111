@@ -17,14 +17,21 @@ try {
     )");
     echo "<p style='color:green;'>✓ Created new users table</p>";
     
-    // Add default user
-    $hashed_pass = password_hash('2009', PASSWORD_DEFAULT);
+    // Add admin user
+    $admin_pass = password_hash('2009', PASSWORD_DEFAULT);
     $pdo->prepare("INSERT INTO users (username, password, name, role) VALUES (?, ?, ?, ?)")
-        ->execute(['dorii', $hashed_pass, 'Manager User', 'manager']);
-    echo "<p style='color:green;'>✓ Added default user: dorii / 2009</p>";
+        ->execute(['dori', $admin_pass, 'Admin User', 'admin']);
+    echo "<p style='color:green;'>✓ Added admin user: dori / 2009</p>";
+    
+    // Add manager user
+    $manager_pass = password_hash('2009', PASSWORD_DEFAULT);
+    $pdo->prepare("INSERT INTO users (username, password, name, role) VALUES (?, ?, ?, ?)")
+        ->execute(['dorii', $manager_pass, 'Manager User', 'manager']);
+    echo "<p style='color:green;'>✓ Added manager user: dorii / 2009</p>";
     
     echo "<h1 style='color:green;'>Success!</h1>";
-    echo "<p><b>Login with:</b> dorii / 2009</p>";
+    echo "<p><b>Admin:</b> dori / 2009</p>";
+    echo "<p><b>Manager:</b> dorii / 2009</p>";
     echo "<p><a href='login.php' style='color:blue;'>Go to Login</a></p>";
     
 } catch (PDOException $e) {

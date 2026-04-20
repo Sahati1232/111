@@ -9,22 +9,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $pass = $_POST['password'] ?? '';
 
     if (!empty($user) && !empty($pass)) {
-        // Query database for user
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->execute([$user]);
-        $user_data = $stmt->fetch();
+        try {
+            // Query database for user
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+            $stmt->execute([$user]);
+            $user_data = $stmt->fetch();
 
-        // Verify user exists and password is correct
-        if ($user_data && password_verify($pass, $user_data['password'])) {
-            $_SESSION['logged_in'] = true;
-            $_SESSION['username'] = $user_data['username'];
-            $_SESSION['user_id'] = $user_data['id'];
-            
-            // Redirect to dashboard
-            header("Location: super_admin.php"); 
-            exit;
-        } else {
-            $error = "Incorrect username or password.";
+            // Verify user exists and password is correct
+            if ($user_data && password_verify($pass, $user_data['password'])) {
+                $_SESSION['logged_in'] = true;
+                $_SESSION['username'] = $user_data['username'];
+                $_SESSION['user_id'] = $user_data['id'];
+                $_SESSION['role'] = $user_data['role'];
+                
+                // Redirect to dashboard
+                header("Location: super_admin.php"); 
+                exit;
+            } else {
+                $error = "Incorrect username or password.";
+            }
+        } catch (Exception $e) {
+            $error = "Login error: " . $e->getMessage();
         }
     } else {
         $error = "Please enter both username and password.";

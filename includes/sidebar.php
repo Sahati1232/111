@@ -9,9 +9,11 @@
         <a href="inventory.php" class="flex items-center gap-3 p-4 <?= basename($_SERVER['PHP_SELF']) == 'inventory.php' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800' ?> rounded-2xl transition-all">
             📦 Inventory
         </a>
+        <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
         <a href="admin_users.php" class="flex items-center gap-3 p-4 <?= basename($_SERVER['PHP_SELF']) == 'admin_users.php' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800' ?> rounded-2xl transition-all">
             👥 Users
         </a>
+        <?php endif; ?>
     </nav>
     <a href="login.php" class="p-4 bg-red-500/10 text-red-500 rounded-2xl text-center text-xs font-black hover:bg-red-500 hover:text-white transition-all">LOGOUT</a>
 </aside>

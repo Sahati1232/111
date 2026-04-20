@@ -4,7 +4,7 @@
         <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">System Unlocked</span>
     </div>
     <div class="flex items-center gap-4">
-        <span class="text-sm font-medium text-slate-300">Active User: <b class="text-white"><?= $_SESSION['username'] ?></b></span>
+        <span class="text-sm font-medium text-slate-300">Active User: <b class="text-white"><?= $_SESSION['username'] ?></b> <span class="text-xs text-slate-500">(<?= ucfirst($_SESSION['role']) ?>)</span></span>
         <div class="relative">
             <button onclick="toggleDropdown()" class="h-10 w-10 bg-indigo-600 hover:bg-indigo-500 rounded-xl flex items-center justify-center font-bold text-white shadow-lg transition-all cursor-pointer">A</button>
             

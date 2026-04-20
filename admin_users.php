@@ -3,7 +3,7 @@ session_start();
 require_once 'config/db.php';
 require_once 'config/functions.php';
 
-if (!isset($_SESSION['logged_in'])) {
+if (!isset($_SESSION['logged_in']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit;
 }
@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         $password = $_POST['password'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
         $name = $_POST['name'] ?? '';
+        $role = $_POST['role'] ?? 'user';
 
         // Validation
         if (empty($username) || empty($password) || empty($name)) {
@@ -35,9 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
             } else {
                 // Insert new user
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $stmt = $pdo->prepare("INSERT INTO users (username, password, name) VALUES (?, ?, ?)");
+                $stmt = $pdo->prepare("INSERT INTO users (username, password, name, role) VALUES (?, ?, ?, ?)");
                 try {
-                    $stmt->execute([$username, $hashed_password, $name]);
+                    $stmt->execute([$username, $hashed_password, $name, $role]);
                     $success = "User '$username' created successfully!";
                 } catch (PDOException $e) {
                     $error = "Error creating user: " . $e->getMessage();
@@ -57,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 }
 
 // Fetch all users
-$users = $pdo->query("SELECT id, username, name, created_at FROM users ORDER BY id DESC")->fetchAll();
+$users = $pdo->query("SELECT id, username, name, role, created_at FROM users ORDER BY id DESC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -118,6 +119,15 @@ $users = $pdo->query("SELECT id, username, name, created_at FROM users ORDER BY 
                                    class="w-full bg-slate-900/50 border border-slate-700 p-3 rounded-2xl text-white outline-none focus:ring-2 focus:ring-indigo-500 mt-1" required>
                         </div>
 
+                        <div>
+                            <label class="text-xs font-bold text-slate-400 uppercase">Role</label>
+                            <select name="role" class="w-full bg-slate-900/50 border border-slate-700 p-3 rounded-2xl text-white outline-none focus:ring-2 focus:ring-indigo-500 mt-1">
+                                <option value="user">User</option>
+                                <option value="manager">Manager</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+
                         <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-2xl transition-all mt-6">
                             Create User
                         </button>
@@ -141,7 +151,10 @@ $users = $pdo->query("SELECT id, username, name, created_at FROM users ORDER BY 
                                 <div>
                                     <p class="font-bold text-white"><?= h($u['name']) ?></p>
                                     <p class="text-xs text-slate-400 mt-1">@<?= h($u['username']) ?></p>
-                                    <p class="text-[10px] text-slate-500 mt-1">Added: <?= date('M d, Y', strtotime($u['created_at'])) ?></p>
+                                    <div class="flex gap-2 mt-2">
+                                        <span class="text-[10px] text-slate-500">Added: <?= date('M d, Y', strtotime($u['created_at'])) ?></span>
+                                        <span class="text-[10px] px-2 py-1 rounded-full <?= $u['role'] === 'admin' ? 'bg-red-500/20 text-red-400' : ($u['role'] === 'manager' ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-700/20 text-slate-400') ?> font-bold uppercase"><?= $u['role'] ?></span>
+                                    </div>
                                 </div>
                                 <div class="flex gap-2">
                                     <?php if($u['id'] != $_SESSION['user_id']): ?>
