@@ -1,0 +1,31 @@
+/* assets/style.css */
+
+/* Custom hover transition for table rows */
+tr {
+    transition: background-color 0.2s ease;
+}
+
+/* Custom focus states for form inputs */
+input:focus {
+    outline: 2px solid #4f46e5; /* indigo-600 */
+    border-color: transparent;
+}
+
+/* Success/Error message styling */
+.alert {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+.alert-success { background: #dcfce7; color: #166534; }
+
+
+body { font-family: 'Inter', sans-serif; }
+.glass-card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.btn-action { @apply transition-all duration-200 active:scale-95; }
